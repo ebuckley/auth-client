@@ -11,7 +11,7 @@ gulp.task('browserify', function  () {
 });
 
 gulp.task('copy', function  () {
-	return gulp.src('src/index.html')
+	return gulp.src('src/frontend/index.html')
 	.pipe(gulp.dest('dist'));
 });
 
