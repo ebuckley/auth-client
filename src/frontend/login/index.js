@@ -38,6 +38,7 @@ var login = React.createClass({
 		if (token) {
 			this.state.isAuthed = true;
 			this.state.token = token;
+			this.state.username = token.username;
 		} else {
 			this.state.isAuthed = false;
 			this.state.token = false;
