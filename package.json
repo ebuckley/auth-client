@@ -1,7 +1,7 @@
 {
-  "name": "flux-prototype",
+  "name": "finance",
   "version": "1.0.0",
-  "description": "Flux prototype for finance project",
+  "description": "finance project",
   "main": "index.js",
   "scripts": {
     "test": "npm test"
