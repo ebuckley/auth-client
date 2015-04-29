@@ -17,6 +17,7 @@
     "gulp-browserify": "^0.5.1",
     "gulp-concat": "^2.5.2",
     "highland": "^2.4.0",
+    "lodash": "^3.7.0",
     "react": "^0.13.2",
     "reactify": "^1.1.0"
   }

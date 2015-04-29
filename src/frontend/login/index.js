@@ -8,30 +8,45 @@ var login = React.createClass({
 	onLogin: function  (e) {
 		var that = this;
 		data.authRequest(this.state.username, this.state.password)
-		.then(function (resp) {
-			if (resp.statusCode == 200) {
-				that.setState({
-					isAuthed: true,
-					token: resp.body
-				});
-				localStorage.setItem(jotTokenKey, resp.body);
-			} else {
-				that.state.errors.push("Recieved bad response: " + JSON.stringify(resp.body))
-				that.setState({
-					errors:  that.state.errors
-				});
-			}
+		.then(function () {}, function (body) {
+			that.state.errors.push("Recieved bad response: " + JSON.stringify(body))
+			that.setState({
+				errors:  that.state.errors
+			});
 		});
 		e.preventDefault();
 	},
 	componentWillMount: function() {
-		var token = localStorage.getItem(jotTokenKey);
+		var cmp = this;
+		var loginHandler = data.hub.on('login', function  (e) {
+			console.log('user did login', e);
+			cmp.setState({
+				isAuthed: true, 
+				token: e,
+				username: e.username
+			});
+		});
+
+		var logoutHandler = data.hub.on('logout', function  (e) {
+			cmp.setState({
+				isAuthed: false,
+				token: undefined,
+				username: undefined
+			});
+		});
+		//set initial state
+		var token = data.isLoggedIn()
 		if (token) {
 			this.state.isAuthed = true;
 			this.state.token = token;
 		} else {
 			this.state.isAuthed = false;
+			this.state.token = false;
 		}
+	},
+	componentWillUnmount: function() {
+		data.hub.removeEventListener(loginHandler);
+		data.hub.removeEventListener(logoutHandler);
 	},
 
 	getInitialState: function() {
@@ -53,11 +68,8 @@ var login = React.createClass({
 	},
 
 	logout: function (e) {
-		localStorage.removeItem(jotTokenKey)
-		this.setState({
-			isAuthed: false,
-			token: undefined 
-		});
+		data.logout();
+		
 	},
 
 	clearErrors: function (e) {
@@ -82,8 +94,6 @@ var login = React.createClass({
 
 		var loginForm = (
 			<div className="login-form">
-
-
 				{clearIfErrors}
 				{errors}
 				<form action="#" className="form form-inline">

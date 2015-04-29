@@ -1,5 +1,6 @@
 var React = require('react'),
 	Login = require('./login'),
+	data = require('./data'),
 	Register = require('./login/register');
 
 React.render(

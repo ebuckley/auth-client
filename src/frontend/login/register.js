@@ -19,13 +19,24 @@ var register = React.createClass({
 		});
 	},
 	submitRegistration: function (e) {
-		e.stopPropogation();
+		var that = this;
+
+		e.preventDefault();
+
 		if (this.state.password !==  this.state.passwordConfirm) {
 			this.state.errors.push("Passwords don't match")
 			this.setState({
 				errors: this.state.errors
 			});
 		}
+		data.register(this.state.username, this.state.password)
+		.then(function  (resp) {
+			console.log('succesfull register response', resp);
+		}, function (err) {
+			that.setState({
+				errors: [err]
+			});
+		});
 	},
 	getInitialState: function() {
 		return {
@@ -35,7 +46,7 @@ var register = React.createClass({
 	render: function() {
 		var errors = this.state.errors.map(function (msg) {
 			return (
-				<div className="error">
+				<div className="error" >
 					{msg}
 				</div>
 			);
