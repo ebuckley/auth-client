@@ -19,7 +19,6 @@ var login = React.createClass({
 	componentWillMount: function() {
 		var cmp = this;
 		var loginHandler = data.hub.on('login', function  (e) {
-			console.log('user did login', e);
 			cmp.setState({
 				isAuthed: true, 
 				token: e,

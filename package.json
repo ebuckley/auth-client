@@ -10,6 +10,11 @@
     "type": "git",
     "url": "."
   },
+  "browserify": {
+    "transform": [
+      ["reactify", {"es6": true}]
+    ]
+  },
   "author": "Ersin",
   "license": "MIT",
   "dependencies": {

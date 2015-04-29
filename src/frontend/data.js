@@ -9,7 +9,6 @@ var jotserver = "http://localhost:8080"
 var jotTokenKey = "jotAuthToken";
 
 function logUserIn(token, username) {
-	console.log('token', token);
 	var data = _.extend(token, {
 		username: username
 	});
@@ -91,7 +90,7 @@ data.register = function  (username, password) {
 			logUserIn(resp.body, username);
 			defer.resolve(resp.body);
 		} else {
-			defer.reject("Error ${resp.statusCode}: ${resp.body}");
+			defer.reject(`Error ${resp.statusCode}: ${resp.body}`);
 		}
 
 	});
