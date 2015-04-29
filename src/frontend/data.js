@@ -22,6 +22,10 @@ data.authRequest = function (username, password) {
 	});
 
 	return defer.promise;
-}
+};
+
+data.logout = function  () {
+	
+};
 
 module.exports = data;
