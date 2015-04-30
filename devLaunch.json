@@ -1,0 +1,9 @@
+{
+	"apps": [
+		{
+			"name": "backend",
+			"script": "src/backend/index.js",
+			"watch": true
+		}
+	]
+}

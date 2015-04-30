@@ -5,19 +5,23 @@ var xhr = require('xhr'),
 	hub = new EventEmitter(),
 	hl = require('highland');
 
-var jotserver = "http://localhost:8080"
+var jotserver = "/jotservice"
 var jotTokenKey = "jotAuthToken";
 
-function logUserIn(token, username) {
+//module we are exporting
+var data = {};
+
+var logUserIn = function (token, username) {
 	var data = _.extend(token, {
 		username: username
 	});
 	localStorage.setItem(jotTokenKey, JSON.stringify(data));
 	hub.emit('login', data);
-}
+
+};
+
 console.log('init data model...');
 
-var data = {};
 window.addEventListener('storage', function(e) {
 	console.log('storage eventhandler', e);
 	if (e.key === jotTokenKey) {
@@ -27,6 +31,10 @@ window.addEventListener('storage', function(e) {
 }, false);
 
 data.hub = hub;
+
+hub.on('login', function () {
+	data.getUserData();
+});
 
 /**
  * Return token if logged in else returns falsy
@@ -97,5 +105,29 @@ data.register = function  (username, password) {
 
 	return defer.promise;
 };
+
+data.getUserData = function () {
+	var defer = q.defer();
+	var token = data.isLoggedIn();
+	if (token) {
+		xhr({
+			method: 'GET',
+			uri: jotserver + '/profile',
+			headers: {
+				token
+			}
+		}, function  (err, res) {
+			if (err) {
+				defer.reject("fatal error" + err.toString());
+			}
+			hub.emit('getUserData', JSON.parse(res.body));
+			defer.resolve(res);
+		});
+	} else {
+		defer.reject('Not logged in');
+	}
+	return defer.promise;
+};
+
 
 module.exports = data;
