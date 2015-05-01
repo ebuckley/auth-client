@@ -5,7 +5,9 @@ var browserify = require('gulp-browserify'),
 
 gulp.task('browserify', function  () {
 	return gulp.src('src/frontend/main.js')
-		.pipe(browserify({transform: 'reactify'}))
+		.pipe(browserify({
+			transform: ['reactify']
+		}))
 		.pipe(concat('main.js'))
 		.pipe(gulp.dest('dist/js'));		
 });

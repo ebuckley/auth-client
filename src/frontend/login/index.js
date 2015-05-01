@@ -1,38 +1,49 @@
 var React = require('react'),
 	Register = require('./register'),
+	Link = require('react-router-component').Link,
 	data = require('../data.js');
 
 var jotTokenKey = "jotAuthToken";
+
+var loginHandler, logoutHandler, loginError;
 var login = React.createClass({
 	
 	onLogin: function  (e) {
 		var that = this;
 		data.authRequest(this.state.username, this.state.password)
 		.then(function () {}, function (body) {
-			that.state.errors.push("Recieved bad response: " + JSON.stringify(body))
-			that.setState({
-				errors:  that.state.errors
-			});
+			data.hub.emit('loginerror', body);
+			
 		});
 		e.preventDefault();
 	},
 	componentWillMount: function() {
 		var cmp = this;
-		var loginHandler = data.hub.on('login', function  (e) {
+
+		loginError = function (e) {
+			cmp.state.errors.push("Recieved bad response: " + JSON.stringify(e))
+			cmp.setState({
+				errors:  cmp.state.errors
+			});
+		}
+		loginHandler = function  (e) {
 			cmp.setState({
 				isAuthed: true, 
 				token: e,
 				username: e.username
 			});
-		});
+		};
+		data.hub.on('login', loginHandler);
 
-		var logoutHandler = data.hub.on('logout', function  (e) {
+		logoutHandler = function  (e) {
 			cmp.setState({
 				isAuthed: false,
 				token: undefined,
 				username: undefined
 			});
-		});
+		};
+		data.hub.on('logout', logoutHandler);
+
 		//set initial state
 		var token = data.isLoggedIn()
 		if (token) {
@@ -45,8 +56,9 @@ var login = React.createClass({
 		}
 	},
 	componentWillUnmount: function() {
-		data.hub.removeEventListener(loginHandler);
-		data.hub.removeEventListener(logoutHandler);
+		data.hub.off('login', loginHandler);
+		data.hub.off('logout', logoutHandler);
+		data.hub.off('loginerror', loginError);
 	},
 
 	getInitialState: function() {
@@ -101,6 +113,7 @@ var login = React.createClass({
 					<input className="form-control" type="password" placeholder="password" onChange={this.updatePw}></input>
 					<button onClick={this.onLogin} className="btn btn-danger" > Login </button>
 				</form>
+				<Link href="/register">Register</Link>
 			</div>
 		);
 		var didLogin = (

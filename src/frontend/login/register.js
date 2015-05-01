@@ -44,6 +44,14 @@ var register = React.createClass({
 		};
 	},
 	render: function() {
+		if (data.isLoggedIn()) {
+			return(
+				<div>
+					"User logged in"
+				</div>
+			)
+		}
+
 		var errors = this.state.errors.map(function (msg) {
 			return (
 				<div className="error" >

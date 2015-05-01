@@ -2,7 +2,11 @@ var xhr = require('xhr'),
 	q = require('q'),
 	_ = require('lodash'),
 	EventEmitter = require('eventemitter2').EventEmitter2,
-	hub = new EventEmitter(),
+	hub = new EventEmitter({
+		wildcard: true,
+		delimiter: '#',
+		newListener: true
+	}),
 	hl = require('highland');
 
 var jotserver = "/jotservice"
