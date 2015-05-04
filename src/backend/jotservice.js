@@ -1,5 +1,6 @@
 var express = require('express'),
 	request = require('request'),
+	log = require('./logger'),
 	cfg = require('./config'),
 	router = express.Router();
 
@@ -22,12 +23,11 @@ function AuthenticatedMiddleware(req, res, next) {
 		json: true
 	}, function (err, response, body) {
 		if (err) {
-			console.error('fatal error backend is down:', err);
+			log('ERROR: fatal error backend is down:', err);
 			res.status(500).end();
 			return;
 		}
-
-		console.log(body);
+		log("user validated");
 		next();
 	});
 }
@@ -49,7 +49,7 @@ router.post('/authenticate', function  (req, res) {
 		json: true
 	}, function (err, response, body) {
 		if (err) {
-			console.error('fatal error backend is down:', err);
+			log('ERROR: fatal error backend is down:', err);
 			res.status(500).end();
 		}
 		res.status(response.statusCode)
@@ -68,7 +68,7 @@ router.post('/register', function  (req, res) {
 		json: true
 	}, function (err, response, body) {
 		if (err) {
-			console.error('fatal error backend is down:', err);
+			log('ERROR: fatal error backend is down:', err);
 			res.status(500).end();
 		}
 		res.status(response.statusCode)

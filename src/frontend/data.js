@@ -24,8 +24,6 @@ var logUserIn = function (token, username) {
 
 };
 
-console.log('init data model...');
-
 window.addEventListener('storage', function(e) {
 	console.log('storage eventhandler', e);
 	if (e.key === jotTokenKey) {
