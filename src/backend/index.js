@@ -1,7 +1,6 @@
 var express = require('express'),
 	bodyparser = require('body-parser'),
 	jotservice = require('./jotservice'),
-	dataservice = require('./dataservice'),
 	log = require('./logger'),
 	_ = require('lodash'),
 	path = require('path');
@@ -27,7 +26,6 @@ app.use(function (req, res, next) {
 app.use('/static', express.static(cfg.staticFilesLocation));
 
 app.use('/jotservice', jotservice.router);
-app.use('/d', dataservice.router)
 app.get('/', function (req, res) {
 	res.sendFile(path.join(cfg.staticFilesLocation, 'index.html'), function (err) {
 		if (err) {
@@ -40,6 +38,6 @@ app.get('/', function (req, res) {
 var server = app.listen(3000, function () {
 	var host = server.address().address;
 	var port = server.address().port
-	log('Finance backend started at http://%s:%s', host, port);
+	log('Auth Client started at http://%s:%s', host, port);
 	log('config', cfg);
 });

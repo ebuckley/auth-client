@@ -1,16 +1,15 @@
-#Finance
+#Auth-client
 
-Organize finance for your group
+A web client for a [jotservice](github.com/ebuckley/jotservice)
 
-##Stories
-- A User can see there transactions
-- A User can see how much money they owe
-- A User can group transactions by timerange
-- A User can group transactions by timerange
-- A User can join a group
-- A User can Create a group
-- A User can invite someone to a group
-- User can see a group balance page
-- User can Register
-- User can login
-- A User can import CSV files from web gui
+#Usage
+
+- Checkout source code
+- install dependencies `npm install`
+- build frontend `gulp`
+- start service `node src/backend`
+- check that it works `curl -l localhost:3000`
+
+#Config
+
+- `config.js` is where you can modify the location of the jotservice it will connect to

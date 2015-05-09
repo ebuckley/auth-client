@@ -1,14 +1,14 @@
 {
-  "name": "finance",
+  "name": "auth-client",
   "version": "1.0.0",
-  "description": "finance project",
+  "description": "",
   "main": "index.js",
   "scripts": {
     "test": "npm test"
   },
   "repository": {
     "type": "git",
-    "url": "."
+    "url": "github.com/ebuckley/auth-client"
   },
   "browserify": {
     "transform": [
