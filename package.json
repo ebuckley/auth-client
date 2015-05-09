@@ -12,7 +12,12 @@
   },
   "browserify": {
     "transform": [
-      ["reactify", {"es6": true}]
+      [
+        "reactify",
+        {
+          "es6": true
+        }
+      ]
     ]
   },
   "author": "Ersin",
@@ -24,6 +29,7 @@
     "highland": "^2.4.0",
     "lodash": "^3.7.0",
     "react": "^0.13.2",
+    "react-router-component": "^0.24.4",
     "reactify": "^1.1.0"
   }
 }
