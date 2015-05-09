@@ -1,6 +1,7 @@
 var express = require('express'),
 	bodyparser = require('body-parser'),
 	jotservice = require('./jotservice'),
+	dataservice = require('./dataservice'),
 	log = require('./logger'),
 	_ = require('lodash'),
 	path = require('path');
@@ -20,13 +21,13 @@ app.use(function (req, res, next) {
 		log('Request Response: from: %s for: %s time:%s ms', req.ip , req.originalUrl, Date.now() - startTs);
 	});
 
-	log('Request: from: %s for: %s',  req.ip, req.originalUrl);
 	next();
 });
 
 app.use('/static', express.static(cfg.staticFilesLocation));
 
 app.use('/jotservice', jotservice.router);
+app.use('/d', dataservice.router)
 app.get('/', function (req, res) {
 	res.sendFile(path.join(cfg.staticFilesLocation, 'index.html'), function (err) {
 		if (err) {

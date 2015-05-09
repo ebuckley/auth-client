@@ -9,8 +9,9 @@ var xhr = require('xhr'),
 	}),
 	hl = require('highland');
 
-var jotserver = "/jotservice"
-var jotTokenKey = "jotAuthToken";
+var jotserver = "/jotservice",
+	jotTokenKey = "jotAuthToken",
+	dataEndPoint = "/d";
 
 //module we are exporting
 var data = {};
@@ -110,13 +111,13 @@ data.register = function  (username, password) {
 
 data.getUserData = function () {
 	var defer = q.defer();
-	var token = data.isLoggedIn();
-	if (token) {
+	var user = data.isLoggedIn();
+	if (user) {
 		xhr({
 			method: 'GET',
-			uri: jotserver + '/profile',
+			uri: dataEndPoint + '/profile',
 			headers: {
-				token
+				Token: user.Token
 			}
 		}, function  (err, res) {
 			if (err) {
